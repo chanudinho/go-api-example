@@ -7,12 +7,9 @@ import (
 )
 
 func main() {
-	cfg := configs.Load()
-	mysql.ConnectDatabase(cfg)
-	r := server.InitRouter()
+	configs := configs.LoadEnv()
 
-	err := r.Run(":9090")
-	if err != nil {
-		return
-	}
+	database := mysql.ConnectDatabase(configs)
+
+	server.StartServer(database)
 }

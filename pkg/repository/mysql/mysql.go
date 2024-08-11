@@ -10,17 +10,15 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
-
-func ConnectDatabase(cfg configs.EnvConfigs) {
+func ConnectDatabase(cfg configs.EnvConfigs) *gorm.DB {
 	var database *gorm.DB
 	var err error
 
-	dbURl := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4", cfg.DbUser, cfg.DbPassword, cfg.DbHost, cfg.DbPort, cfg.DbName)
+	dbURL := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True", cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName)
 
 	for i := 1; i <= 3; i++ {
 		database, err = gorm.Open(mysql.New(mysql.Config{
-			DSN: dbURl,
+			DSN: dbURL,
 		}), &gorm.Config{})
 		if err == nil {
 			break
@@ -30,5 +28,5 @@ func ConnectDatabase(cfg configs.EnvConfigs) {
 		}
 	}
 
-	DB = database
+	return database
 }
