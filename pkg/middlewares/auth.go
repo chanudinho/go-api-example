@@ -19,7 +19,14 @@ func VerifyToken(role string) gin.HandlerFunc {
 			return
 		}
 
-		tokenString = strings.Split(tokenString, " ")[1]
+		fmt.Println("auto", tokenString)
+		checkToken := strings.Split(tokenString, " ")
+		if len(checkToken) != 2 || checkToken[0] != "Bearer" {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
+
+		tokenString = checkToken[1]
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			return []byte("secret"), nil
 		})

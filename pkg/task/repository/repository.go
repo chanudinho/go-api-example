@@ -11,4 +11,5 @@ type TaskRepo interface {
 	FindAll(ctx context.Context, task models.Task) ([]models.Task, error)
 	FindByID(ctx context.Context, id uint) (models.Task, error)
 	Update(ctx context.Context, task models.Task) (models.Task, error)
+	Delete(ctx context.Context, id uint) (int64, error)
 }

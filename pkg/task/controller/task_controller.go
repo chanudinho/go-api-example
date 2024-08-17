@@ -95,3 +95,19 @@ func (ctrl *Controller) Update(gc *gin.Context) {
 
 	gc.JSON(http.StatusOK, task)
 }
+
+func (ctrl *Controller) Delete(gc *gin.Context) {
+	taskID, err := strconv.ParseUint(gc.Param("id"), 10, 64)
+	if err != nil {
+		gc.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = ctrl.Service.Delete(gc, uint(taskID))
+	if err != nil {
+		gc.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, gin.H{"message": "task deleted"})
+}

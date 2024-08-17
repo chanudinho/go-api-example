@@ -11,6 +11,7 @@ type Service interface {
 	Create(ctx context.Context, task domain.Task) (domain.Task, error)
 	FindAll(ctx context.Context, task domain.FindAllRequest) ([]domain.Task, error)
 	Update(ctx context.Context, task domain.UpdateRequest) (domain.Task, error)
+	Delete(ctx context.Context, id uint) error
 }
 
 type service struct {

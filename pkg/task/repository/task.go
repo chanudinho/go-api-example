@@ -59,3 +59,12 @@ func (r *taskRepository) Update(ctx context.Context, task models.Task) (models.T
 
 	return task, err
 }
+
+func (r *taskRepository) Delete(ctx context.Context, id uint) (int64, error) {
+	result := r.DB.
+		WithContext(ctx).
+		Where("id = ?", id).
+		Delete(&models.Task{})
+
+	return result.RowsAffected, result.Error
+}

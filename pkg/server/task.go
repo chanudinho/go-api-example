@@ -13,6 +13,7 @@ func addTaskRoutes(rg *gin.RouterGroup, db *gorm.DB) {
 
 	task.POST("", middlewares.VerifyToken("technician"), taskCtrl.Create)
 	task.GET("", middlewares.VerifyToken("manager"), taskCtrl.FindAllManagerTasks)
-	task.GET("/my", middlewares.VerifyToken(""), taskCtrl.FindAllTechTasks) // put vai ser technician e delete manager
+	task.GET("/my", middlewares.VerifyToken(""), taskCtrl.FindAllTechTasks)
 	task.PUT("/:id", middlewares.VerifyToken("technician"), taskCtrl.Update)
+	task.DELETE("/:id", middlewares.VerifyToken("manager"), taskCtrl.Delete)
 }
